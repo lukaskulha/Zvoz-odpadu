@@ -93,6 +93,12 @@ try {
     if (!["yard", "other"].includes(o.info)) err(`${tag} info must be "yard" or "other"`);
     if (o.info === "yard" && !(o.yard && o.yard.hours && o.yard.map && o.yard.tel)) err(`${tag} info "yard" needs yard: {hours, map, tel}`);
     if (o.info === "other" && !(o.other && o.other.tel && o.other.web)) err(`${tag} info "other" needs other: {tel, web}`);
+    if (o.info === "other" && o.other) {
+      const ICONS = ["bulky", "dso", "elektro", "bat", "chem", "textil", "olej", "bio"];
+      const n = ((o.t || {}).sk || {}).io_t, ic = o.other.icons || [];
+      if (n && ic.length !== n.length) err(`${tag} other.icons has ${ic.length} items, io_t has ${n.length}`);
+      for (const x of ic) if (!ICONS.includes(x)) err(`${tag} unknown icon "${x}" (use ${ICONS.join(", ")})`);
+    }
     if (!o.pdf || !/^https:\/\//.test(o.pdf)) err(`${tag} pdf must be the https link to the KOSIT calendar`);
     for (const k of ["K", "S", "P", "L"]) {
       const m = o.D && o.D[k];

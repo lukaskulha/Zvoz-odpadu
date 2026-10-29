@@ -215,8 +215,9 @@ footer{margin-top:22px;font-size:13px;color:var(--mut)}footer a{color:var(--btn)
 <script src="/obce/zoznam.js"></script>
 <script src="/obce/cana.js"></script>
 <script src="/obce/geca.js"></script>
+<script src="/obce/valaliky.js"></script>
 <script>
-const APP_VERSION="v27";
+const APP_VERSION="v28";
 const BASE_URL="https://zvoz-odpadu.netlify.app/";
 /* ---- obec (village): data comes from obce/<id>.js; the address /<id>/ opens that village ---- */
 function obFromPath(){const s=location.pathname.replace(/^\/+|\/+$/g,"").split("/")[0];return OBCE[s]?s:null}
@@ -327,13 +328,13 @@ for(let o=0;o<=7;o++){const x=(d+o)%7,y=Z[x];if(!y)continue;if(o==0&&m>=y[0])con
 function renderZd(){if(!isYard())return;const z=zStatus(),Z=ZH();const col=z.s=="o"?"var(--S)":z.s=="w"?"var(--yel)":"var(--red)";
 $("zst").innerHTML='<div class="st" style="--col:'+col+'">'+ic(z.s=="c"||z.s=="w"?ZI.clk:ZI.ok,24)+'<span><b>'+z.t+'</b><span>'+z.d+'</span></span></div>';
 $("zh").innerHTML=Object.keys(Z).map(Number).map(d=>'<div class="hr'+(d==z.day?" n":"")+'"><span><b'+(d==z.day?"":' style="font-weight:400"')+'>'+dayName(d)+'</b>'+(d==z.day?"<em>"+T("zd_today_badge")+"</em>":"")+'</span><b>'+fmtT(Z[d][0])+" – "+fmtT(Z[d][1])+'</b></div>').join("")}
-/* Icons for the "other waste" list (village info:"other"), same order as io_t / io_d */
-const IOI=['<path d="M4 18V9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9M4 14h16M6 18v2M18 18v2"/>','<path d="M3 21h18M5 21V11l7-5l7 5v10"/><path d="M9 21v-5h6v5"/>','<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 18h4"/>','<rect x="7" y="6" width="10" height="15" rx="2"/><path d="M10 3h4v3M10 12h4"/>','<path d="M9 3h6v4l4 6v8H5v-8l4-6z"/><path d="M9 7h6"/>','<path d="M8 4l-5 4l3 3l2-1v10h8V10l2 1l3-3l-5-4c-1 1.5-2.4 2-4 2s-3-.5-4-2z"/>','<path d="M10 3h4v3l2 3v12H8V9l2-3z"/><path d="M8 14h8"/>','<path d="M12 21c-4-3-7-6.5-7-10.5C5 6 8.5 3 12 3s7 3 7 7.5c0 4-3 7.5-7 10.5z"/><path d="M12 21V9"/>'];
+/* Icons for the "other waste" list: obce/<id>.js → other.icons gives one name per io_t item */
+const IOI={bulky:'<path d="M4 18V9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9M4 14h16M6 18v2M18 18v2"/>',dso:'<path d="M3 21h18M5 21V11l7-5l7 5v10"/><path d="M9 21v-5h6v5"/>',elektro:'<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 18h4"/>',bat:'<rect x="7" y="6" width="10" height="15" rx="2"/><path d="M10 3h4v3M10 12h4"/>',chem:'<path d="M9 3h6v4l4 6v8H5v-8l4-6z"/><path d="M9 7h6"/>',textil:'<path d="M8 4l-5 4l3 3l2-1v10h8V10l2 1l3-3l-5-4c-1 1.5-2.4 2-4 2s-3-.5-4-2z"/>',olej:'<path d="M10 3h4v3l2 3v12H8V9l2-3z"/><path d="M8 14h8"/>',bio:'<path d="M12 21c-4-3-7-6.5-7-10.5C5 6 8.5 3 12 3s7 3 7 7.5c0 4-3 7.5-7 10.5z"/><path d="M12 21V9"/>'};
 const INFO='<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',WEB='<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>';
 const TRUCK='<path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',HOUSE='<path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/>';
 function drawIo(){if(isYard())return;const o=OB().other;$("ioi0").innerHTML=ic(INFO,24);$("ioi1").innerHTML=ic(ZI.pin,20);
 $("iotel").href="tel:"+o.tel;$("iotel").innerHTML=ic(ZI.tel,18)+T("io_call");$("ioweb").href=o.web;$("ioweb").innerHTML=ic(WEB,18)+T("io_web");
-const t=T("io_t"),d=T("io_d");$("iol").innerHTML=t.map((x,i)=>'<div class="zrow"><span>'+ic(IOI[i]||INFO,20)+'</span><span><b>'+x+'</b><small>'+d[i]+'</small></span></div>').join("")}
+const t=T("io_t"),d=T("io_d");$("iol").innerHTML=t.map((x,i)=>'<div class="zrow"><span>'+ic(IOI[(o.icons||[])[i]]||INFO,20)+'</span><span><b>'+x+'</b><small>'+d[i]+'</small></span></div>').join("")}
 function drawZdStatic(){drawIo();if(!isYard())return;const y=OB().yard;$("zmap").href=y.map;$("ztel").href="tel:"+y.tel;$("zmap").innerHTML=ic(ZI.nav,18)+T("zd_nav");$("ztel").innerHTML=ic(ZI.tel,18)+T("zd_call");
 $("zacc").innerHTML=T("zd_acc_items").map(x=>'<span class="zc">'+x+'</span>').join("");
 $("zrej").innerHTML=T("zd_rej_items").map(x=>'<span class="zc bad">'+x+'</span>').join("")}

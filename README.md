@@ -8,6 +8,7 @@ A free, lightweight web app (PWA) with the 2026 KOSIT waste collection calendars
 | --- | --- | --- |
 | Čaňa | https://zvoz-odpadu.netlify.app/cana/ | Collection yard (Zberný dvor) |
 | Geča | https://zvoz-odpadu.netlify.app/geca/ | Other waste (Iný odpad) – Geča has no collection yard |
+| Valaliky | https://zvoz-odpadu.netlify.app/valaliky/ | Other waste (Iný odpad) – Valaliky has no collection yard |
 
 > This is an unofficial, community project. It is not affiliated with the municipalities or KOSIT a.s. The dates were transcribed from the official KOSIT collection calendars (linked in each village file). If in doubt, the official calendar applies. Found a mistake? Please open an issue.
 
@@ -19,7 +20,7 @@ A free, lightweight web app (PWA) with the 2026 KOSIT waste collection calendars
 - Thursday/Friday switch for mixed waste where a village has two collection days (Čaňa)
 - "Add to calendar": an `.ics` file with reminders the day before (7:00, 13:00, 19:00) and/or on the day (6:00, 7:00, 10:00)
 - What goes where, for all four waste types
-- Second tab per village: collection yard with live open/closed status (Čaňa), or how bulky, electrical, hazardous waste, textiles, oil and green waste are collected (Geča)
+- Second tab per village: collection yard with live open/closed status (Čaňa), or how bulky, electrical, hazardous waste, textiles, oil and green waste are collected (Geča, Valaliky)
 - Light/dark theme and three colour themes, Slovak, Hungarian and English
 - Installable on the home screen (one tap on Android, step-by-step guide on iPhone/iPad and in Facebook), works offline
 

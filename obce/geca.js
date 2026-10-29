@@ -17,7 +17,9 @@ OBCE.geca = {
   info: "other",
   other: {
     tel: "+421556999821",
-    web: "https://www.obecgeca.sk/"
+    web: "https://www.obecgeca.sk/",
+    /* one icon per io_t item: bulky, dso, elektro, bat, chem, textil, olej, bio */
+    icons: ["bulky", "dso", "elektro", "bat", "chem", "textil", "olej", "bio"]
   },
   D: {
     K: {1:[6,20],2:[3,17],3:[3,17,31],4:[14,28],5:[12,26],6:[9,23],7:[7,21],8:[4,18],9:[1,15,29],10:[13,27],11:[10,24],12:[8,22]},
