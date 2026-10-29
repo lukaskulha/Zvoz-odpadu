@@ -1,0 +1,7 @@
+# Netlify: check translations and village data, then build the site into dist/.
+# If the check fails, the deploy stops and the previous version stays online.
+[build]
+  command = "node scripts/check-i18n.js && node scripts/build.js"
+  publish = "dist"
+
+# Old single-village style links with ?obec=… keep working through the app itself.
