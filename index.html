@@ -112,7 +112,7 @@ footer{margin-top:22px;font-size:13px;color:var(--mut)}footer a{color:var(--btn)
 .in-tx{flex:1;min-width:0}.in-tx b{display:block;font-size:14px;line-height:1.25}.in-tx small{display:block;font-size:12px;color:var(--mut);margin-top:2px}
 .in-go{flex:none;border:0;border-radius:10px;background:var(--btn);color:var(--bt);font:inherit;font-size:14px;font-weight:600;padding:9px 14px;cursor:pointer}
 .in-x{flex:none;display:flex;border:0;background:transparent;color:var(--mut);padding:6px;border-radius:8px;cursor:pointer}.in-x:hover{background:var(--in)}
-.in-now{width:100%;padding:14px;font-size:16px}
+.in-now{width:100%;padding:14px;font-size:16px;display:block;text-align:center;text-decoration:none;box-sizing:border-box}
 .in-fl{display:inline-flex;align-items:center;gap:6px;border:0;background:transparent;color:var(--btn);font:inherit;font-size:13px;padding:6px 0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .in-bg{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;animation:in-fade .2s ease}
 .in-sh{width:100%;max-width:560px;background:var(--card);color:var(--tx);border-radius:18px 18px 0 0;padding:16px max(18px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(18px,env(safe-area-inset-left,0px));box-shadow:0 -8px 30px rgba(0,0,0,.25);animation:in-sl .3s cubic-bezier(.2,.9,.3,1)}
@@ -218,7 +218,7 @@ footer{margin-top:22px;font-size:13px;color:var(--mut)}footer a{color:var(--btn)
 <script src="/obce/geca.js"></script>
 <script src="/obce/valaliky.js"></script>
 <script>
-const APP_VERSION="v29";
+const APP_VERSION="v30";
 const BASE_URL="https://zvoz-odpadu.netlify.app/";
 /* ---- obec (village): data comes from obce/<id>.js; the address /<id>/ opens that village ---- */
 function obFromPath(){const s=location.pathname.replace(/^\/+|\/+$/g,"").split("/")[0];return OBCE[s]?s:null}
@@ -418,6 +418,7 @@ function instMode(){if(SIM)return SIM;if(instd)return "done";
 if(matchMedia("(display-mode: standalone)").matches||navigator.standalone===true)return "done";
 const ua=navigator.userAgent;if(/FBAN|FBAV|FB_IAB|FBIOS|Instagram|Messenger/i.test(ua))return "inapp";
 if(/iPad/.test(ua)||(navigator.platform=="MacIntel"&&navigator.maxTouchPoints>1))return "ipad";if(/iPhone|iPod/.test(ua)){const v=+((ua.match(/Version\/(\d+)/)||[])[1]||0);return v>=26?"ios26":"ios"}
+if(/Android/i.test(ua)&&/SamsungBrowser|EdgA|OPR\/|Opera|Firefox|YaBrowser|MiuiBrowser|HuaweiBrowser|UCBrowser|DuckDuckGo/i.test(ua))return "otherbr"; /* their install is blocked by Play Protect, send people to Chrome */
 if(bip)return "native";if(/Android/i.test(ua))return "android";return null}
 function instHidden(){try{return +localStorage.getItem("inst_hide")>Date.now()}catch(e){return false}}
 function iosOverlay(m){const more=m=="ios26",pad=m=="ipad";
@@ -434,6 +435,7 @@ const steps=(a)=>'<ol class="in-st">'+a.map((x,i)=>'<li><span>'+(i+1)+'</span><d
 function sheet(m){let t,h;
 if(m=="ios"){t=T("ios_title");h=steps([T("ios_1",{icon:SHARE}),T("ios_2"),T("ios_3")])+'<p class="in-note">'+T("ios_note")+'</p>'}
 else if(m=="inapp"){t=T("fb_title");h='<p class="in-txt">'+T("fb_text")+'</p>'+steps([T("fb_1"),T("fb_2"),T("fb_3")])+'<button type="button" class="in-cp" id="incp">'+ic('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>',18)+'<span>'+T("copy_link")+'</span></button><span class="in-url">'+APP_URL+'</span>'}
+else if(m=="otherbr"){t=T("br_title");const u=APP_URL.replace(/^https:\/\//,"");h='<p class="in-txt">'+T("br_text")+'</p><a class="in-go in-now" id="inchr" href="intent://'+u+'#Intent;scheme=https;package=com.android.chrome;end">'+T("br_open")+'</a>'+'<p class="in-note">'+T("br_or")+'</p>'+steps([T("br_1"),T("br_2"),T("br_3")])+'<button type="button" class="in-cp" id="incp">'+ic('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>',18)+'<span>'+T("copy_link")+'</span></button><span class="in-url">'+APP_URL+'</span>'}
 else if(bip){t=T("and_title");h='<button type="button" class="in-go in-now" id="innow">'+T("inst_now")+'</button>'}
 else{t=T("and_title");h=steps([T("and_1"),T("and_2"),T("and_3")])}
 $("inst-t").textContent=t;$("inshb").innerHTML=h;$("insh").dataset.m=m;$("insh").hidden=false;const nw=$("innow");if(nw)nw.onclick=()=>{$("insh").hidden=true;instGo()};$("inshx").focus();
