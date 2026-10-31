@@ -48,7 +48,7 @@ footer{margin-top:22px;font-size:13px;color:var(--mut)}footer a{color:var(--btn)
 .nx b{font-size:12px;gap:5px;min-height:26px}.nx .dt{width:10px;height:10px}.nx .alr{margin:-10px -12px 8px;padding:5px 12px;border-radius:11px 11px 0 0;font-size:12px;font-weight:600;display:flex;align-items:center;gap:5px}.nx.r{border-color:var(--red)}.nx.r .alr{background:var(--red);color:var(--redt)}.nx.y{border-color:var(--yel)}.nx.y .alr{background:var(--yel);color:#1b1f2a}
 .tsw{display:flex;gap:1px;padding:2px;border-radius:8px;background:var(--in);margin-left:auto;margin-right:4px;flex:none}.tsw button{height:auto;border:1px solid transparent;background:transparent;color:var(--mut);font:inherit;font-size:11px;padding:3px 6px;border-radius:6px}.tsw button[aria-pressed="true"]{background:var(--card);border-color:var(--bd2);color:var(--tx);font-weight:600}
 .zd .st{display:flex;align-items:center;gap:10px;border:1px solid var(--col);background:color-mix(in srgb,var(--col) 14%,var(--card));border-radius:12px;padding:10px 12px;margin:0 0 14px}.zd .st svg{color:var(--col)}.zd .st b{display:block;font-size:17px}.zd .st span span{display:block;font-size:13px}
-.hr{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-radius:10px;font-size:15px}.hr.n{background:var(--in)}.hr em{font-style:normal;font-size:11px;padding:2px 7px;border-radius:999px;background:var(--btn);color:var(--bt);margin-left:8px}.hr b{font-weight:600}
+.hr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 12px;border-radius:10px;font-size:15px}.hr.n{background:var(--in)}.hr em{font-style:normal;font-size:11px;padding:2px 7px;border-radius:999px;background:var(--btn);color:var(--bt);margin-left:8px}.hr b{font-weight:600}
 .zrow{display:flex;gap:10px;align-items:flex-start;font-size:14px;margin:6px 0 0}.zrow svg{color:var(--btn);margin-top:1px}.zrow small{display:block;font-size:12px;color:var(--mut)}
 .zb{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0 0}.zb a{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:12px;font-size:14px;font-weight:600;text-decoration:none;box-sizing:border-box}.zb a.p{background:var(--btn);color:var(--bt)}.zb a.s{border:1px solid var(--bd2);color:var(--tx)}
 .zfee{display:flex;gap:8px;align-items:flex-start;margin:14px 0 0;padding:10px 12px;border-radius:10px;background:var(--in);font-size:13px}.zfee svg{color:var(--btn);margin-top:1px}
@@ -217,8 +217,9 @@ footer{margin-top:22px;font-size:13px;color:var(--mut)}footer a{color:var(--btn)
 <script src="/obce/cana.js"></script>
 <script src="/obce/geca.js"></script>
 <script src="/obce/valaliky.js"></script>
+<script src="/obce/zdana.js"></script>
 <script>
-const APP_VERSION="v30";
+const APP_VERSION="v31";
 const BASE_URL="https://zvoz-odpadu.netlify.app/";
 /* ---- obec (village): data comes from obce/<id>.js; the address /<id>/ opens that village ---- */
 function obFromPath(){const s=location.pathname.replace(/^\/+|\/+$/g,"").split("/")[0];return OBCE[s]?s:null}
@@ -320,15 +321,16 @@ L.push("END:VCALENDAR");return n?L.join("\r\n"):null}
 function setTheme(m,save){const r=document.documentElement;if(m=="auto")delete r.dataset.theme;else r.dataset.theme=m;
 if(save)try{m=="auto"?localStorage.removeItem("theme"):localStorage.setItem("theme",m)}catch(e){}
 document.querySelectorAll("#th button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.m==m))}
-const isYard=()=>OB().info=="yard",ZH=()=>isYard()?OB().yard.hours:{};
+/* yard hours: weekday (0 = Sunday) → [opens, closes] or a list of such intervals (e.g. with a lunch break) */
+const isYard=()=>OB().info=="yard",ZH=()=>{const h=isYard()?OB().yard.hours:{},r={};for(const d in h)r[d]=Array.isArray(h[d][0])?h[d]:[h[d]];return r};
 const dayName=d=>cap(fmtDate(new Date(2026,0,4+d),{weekday:"long"}));
 const ZI={ok:'<circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5l4.5-5"/>',clk:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',pin:'<path d="M12 21s-6-5.6-6-10a6 6 0 0 1 12 0c0 4.4-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>',tel:'<path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',nav:'<path d="M3 11l18-8l-8 18l-2-8z"/>',id:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.5-1.5 1.7-2 3-2s2.5.5 3 2M14 10h4M14 14h4"/>',home:'<path d="M3 12l9-9l9 9"/><path d="M5 10v9a2 2 0 0 0 2 2h4"/><path d="M15 19l2 2l4-4"/>',eur:'<path d="M17.2 7a6 6 0 1 0 0 10M13 10H7M13 14H7"/>'};
-function zStatus(){const Z=ZH(),n=new Date(),d=n.getDay(),m=n.getHours()*60+n.getMinutes(),h=Z[d];
-if(h&&m>=h[0]&&m<h[1]){const l=h[1]-m;return {s:l<=60?"w":"o",t:T(l<=60?"zd_closing":"zd_open"),d:T("zd_until",{t:fmtT(h[1])}),day:d}}
-for(let o=0;o<=7;o++){const x=(d+o)%7,y=Z[x];if(!y)continue;if(o==0&&m>=y[0])continue;return {s:"c",t:T("zd_closed"),d:T(o==0?"zd_opens_today":o==1?"zd_opens_tomorrow":x==3?"zd_opens_wed":x==6?"zd_opens_sat":"zd_opens_on",{t:fmtT(y[0]),d:dayName(x)}),day:d}}return {s:"c",t:T("zd_closed"),d:"",day:d}}
+function zStatus(){const Z=ZH(),n=new Date(),d=n.getDay(),m=n.getHours()*60+n.getMinutes(),h=(Z[d]||[]).find(i=>m>=i[0]&&m<i[1]);
+if(h){const l=h[1]-m;return {s:l<=60?"w":"o",t:T(l<=60?"zd_closing":"zd_open"),d:T("zd_until",{t:fmtT(h[1])}),day:d}}
+for(let o=0;o<=7;o++){const x=(d+o)%7,y=(Z[x]||[]).find(i=>o>0||m<i[0]);if(!y)continue;return {s:"c",t:T("zd_closed"),d:T(o==0?"zd_opens_today":o==1?"zd_opens_tomorrow":x==3?"zd_opens_wed":x==6?"zd_opens_sat":"zd_opens_on",{t:fmtT(y[0]),d:lang=="en"?dayName(x):dayName(x).toLowerCase()}),day:d}}return {s:"c",t:T("zd_closed"),d:"",day:d}}
 function renderZd(){if(!isYard())return;const z=zStatus(),Z=ZH();const col=z.s=="o"?"var(--S)":z.s=="w"?"var(--yel)":"var(--red)";
 $("zst").innerHTML='<div class="st" style="--col:'+col+'">'+ic(z.s=="c"||z.s=="w"?ZI.clk:ZI.ok,24)+'<span><b>'+z.t+'</b><span>'+z.d+'</span></span></div>';
-$("zh").innerHTML=Object.keys(Z).map(Number).map(d=>'<div class="hr'+(d==z.day?" n":"")+'"><span><b'+(d==z.day?"":' style="font-weight:400"')+'>'+dayName(d)+'</b>'+(d==z.day?"<em>"+T("zd_today_badge")+"</em>":"")+'</span><b>'+fmtT(Z[d][0])+" – "+fmtT(Z[d][1])+'</b></div>').join("")}
+$("zh").innerHTML=Object.keys(Z).map(Number).map(d=>'<div class="hr'+(d==z.day?" n":"")+'"><span><b'+(d==z.day?"":' style="font-weight:400"')+'>'+dayName(d)+'</b>'+(d==z.day?"<em>"+T("zd_today_badge")+"</em>":"")+'</span><b>'+Z[d].map(i=>fmtT(i[0])+" – "+fmtT(i[1])).join(", ")+'</b></div>').join("")}
 /* Icons for the "other waste" list: obce/<id>.js → other.icons gives one name per io_t item */
 const IOI={bulky:'<path d="M4 18V9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v9M4 14h16M6 18v2M18 18v2"/>',dso:'<path d="M3 21h18M5 21V11l7-5l7 5v10"/><path d="M9 21v-5h6v5"/>',elektro:'<rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 18h4"/>',bat:'<rect x="7" y="6" width="10" height="15" rx="2"/><path d="M10 3h4v3M10 12h4"/>',chem:'<path d="M9 3h6v4l4 6v8H5v-8l4-6z"/><path d="M9 7h6"/>',textil:'<path d="M8 4l-5 4l3 3l2-1v10h8V10l2 1l3-3l-5-4c-1 1.5-2.4 2-4 2s-3-.5-4-2z"/>',olej:'<path d="M10 3h4v3l2 3v12H8V9l2-3z"/><path d="M8 14h8"/>',bio:'<path d="M12 21c-4-3-7-6.5-7-10.5C5 6 8.5 3 12 3s7 3 7 7.5c0 4-3 7.5-7 10.5z"/><path d="M12 21V9"/>'};
 const INFO='<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>',WEB='<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>';

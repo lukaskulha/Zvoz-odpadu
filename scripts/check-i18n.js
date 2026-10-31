@@ -92,6 +92,12 @@ try {
     for (const l of LANGS) if (!o.name || !o.name[l]) err(`${tag} name.${l} is missing`);
     if (!["yard", "other"].includes(o.info)) err(`${tag} info must be "yard" or "other"`);
     if (o.info === "yard" && !(o.yard && o.yard.hours && o.yard.map && o.yard.tel)) err(`${tag} info "yard" needs yard: {hours, map, tel}`);
+    if (o.info === "yard" && o.yard && o.yard.hours) for (const d in o.yard.hours) {
+      const v = o.yard.hours[d], iv = Array.isArray(v[0]) ? v : [v];
+      if (!(d >= 0 && d <= 6)) err(`${tag} yard.hours: day ${d} must be 0–6 (0 = Sunday)`);
+      let last = -1;
+      for (const i of iv) { if (!(i.length === 2 && i[0] < i[1] && i[0] > last && i[1] <= 1440)) err(`${tag} yard.hours[${d}]: bad interval ${JSON.stringify(i)} (minutes after midnight, in order)`); last = i[1]; }
+    }
     if (o.info === "other" && !(o.other && o.other.tel && o.other.web)) err(`${tag} info "other" needs other: {tel, web}`);
     if (o.info === "other" && o.other) {
       const ICONS = ["bulky", "dso", "elektro", "bat", "chem", "textil", "olej", "bio"];

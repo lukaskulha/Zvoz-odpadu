@@ -5,4 +5,4 @@
  * (the check `node scripts/check-i18n.js` reminds you if you forget).
  */
 var OBCE = {};
-var OBCE_ZOZNAM = ["cana", "geca", "valaliky"];
+var OBCE_ZOZNAM = ["cana", "geca", "valaliky", "zdana"];

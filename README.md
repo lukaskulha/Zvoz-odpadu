@@ -9,6 +9,7 @@ A free, lightweight web app (PWA) with the 2026 KOSIT waste collection calendars
 | Čaňa | https://zvoz-odpadu.netlify.app/cana/ | Collection yard (Zberný dvor) |
 | Geča | https://zvoz-odpadu.netlify.app/geca/ | Other waste (Iný odpad) – Geča has no collection yard |
 | Valaliky | https://zvoz-odpadu.netlify.app/valaliky/ | Other waste (Iný odpad) – Valaliky has no collection yard |
+| Ždaňa | https://zvoz-odpadu.netlify.app/zdana/ | Collection yard (Zberný dvor) – collection point at the primary school |
 
 > This is an unofficial, community project. It is not affiliated with the municipalities or KOSIT a.s. The dates were transcribed from the official KOSIT collection calendars (linked in each village file). If in doubt, the official calendar applies. Found a mistake? Please open an issue.
 
