@@ -60,7 +60,7 @@ function copy(rel) {
 
 fs.rmSync(dist, { recursive: true, force: true });
 fs.mkdirSync(dist);
-for (const f of ["i18n.js", "sw.js", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png", "obce", "og"]) copy(f);
+for (const f of ["i18n.js", "sw.js", "manifest.webmanifest", "xmas.js", "icon-192.png", "icon-512.png", "apple-touch-icon.png", "obce", "og"]) copy(f);
 for (const f of fs.readdirSync(root)) if (/^google[0-9a-f]+\.html$/.test(f)) copy(f); // search console verification, if any
 
 const src = fs.readFileSync(path.join(root, "index.html"), "utf8");

@@ -26,6 +26,9 @@ const path = require("path");
 const root = path.join(__dirname, "..");
 const { I18N, I18N_PLURAL } = require(path.join(root, "i18n.js"));
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+/* other app scripts that call T()/TP() (keys used there must exist too) */
+const JS_FILES = ["xmas.js"];
+const js = JS_FILES.map((f) => fs.readFileSync(path.join(root, f), "utf8")).join("\n");
 
 const REF = "sk";
 const LANGS = Object.keys(I18N);
@@ -131,11 +134,12 @@ try {
   }
 } catch (e) { err("village files could not be loaded: " + e.message); }
 
-// 2) keys used in index.html must exist
+// 2) keys used in index.html (and JS_FILES) must exist
 const used = new Set();
 for (const m of html.matchAll(/data-i18n(?:-aria)?="([^"]+)"/g)) used.add(m[1]);
-for (const m of html.matchAll(/\bTP?\(\s*"([A-Za-z0-9_]+)"\s*[,)]/g)) used.add(m[1]);
-for (const k of used) if (!(k in ref) && !VKEYS.has(k)) err(`index.html uses unknown key "${k}"`);
+for (const m of (html + js).matchAll(/\bTP?\(\s*"([A-Za-z0-9_]+)"\s*[,)]/g)) used.add(m[1]);
+for (const k of used) if (!(k in ref) && !VKEYS.has(k)) err(`index.html or ${JS_FILES.join(", ")} uses unknown key "${k}"`);
+for (const f of JS_FILES) { if (!html.includes(`src="/${f}"`)) err(`add <script src="/${f}"></script> to index.html`); if (!sw.includes(`"/${f}"`)) err(`add "/${f}" to PRE in sw.js`); }
 for (const k of Object.keys(ref)) {
   const seen = used.has(k) || html.includes(`"${k}"`) || html.includes(`'${k}'`) || DYNAMIC_PREFIXES.some((p) => k.startsWith(p));
   if (!seen) warn(`key "${k}" looks unused`);

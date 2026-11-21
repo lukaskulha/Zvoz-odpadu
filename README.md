@@ -22,6 +22,7 @@ A free, lightweight web app (PWA) with the 2026 KOSIT waste collection calendars
 - "Add to calendar": an `.ics` file with reminders the day before (7:00, 13:00, 19:00) and/or on the day (6:00, 7:00, 10:00)
 - What goes where, for all four waste types
 - Second tab per village: collection yard with live open/closed status (Čaňa), or how bulky, electrical, hazardous waste, textiles, oil and green waste are collected (Geča, Valaliky)
+- Christmas countdown from 1 November to 24 December: a gift with the days left and falling snow in the header, and once a day a short welcome animation (Santa, an elf and a reindeer); tap the gift to replay it
 - Light/dark theme and three colour themes, Slovak, Hungarian and English
 - Installable on the home screen (one tap on Android, step-by-step guide on iPhone/iPad and in Facebook), works offline
 
@@ -35,6 +36,7 @@ Settings (village, theme, language, reminder times) are stored only in the brows
 | --- | --- |
 | `index.html` | The whole app: markup, styles and JavaScript |
 | `i18n.js` | Texts shared by all villages in Slovak, Hungarian and English |
+| `xmas.js` | Christmas countdown in the header and the daily welcome animation (1 Nov – 24 Dec), drawings and styles included |
 | `obce/zoznam.js` | List and order of villages |
 | `obce/<id>.js` | One file per village: collection dates, KOSIT PDF, second tab data and village-specific texts |
 | `sw.js` | Service worker for offline use |

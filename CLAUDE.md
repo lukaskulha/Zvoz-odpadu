@@ -11,6 +11,8 @@ and writes one page per village. Netlify deploys every push to `main` automatica
   optionally add `og/<id>.png` (1200×630 link preview). `node scripts/check-i18n.js` reports anything missing.
 - `info: "yard"` = second tab is the collection yard (needs `yard` + `zd_*` texts), `info: "other"` = "Other waste" (needs `other` + `io_*` texts).
 - Never put village-specific data into `index.html` or `i18n.js`.
+- `xmas.js` = Christmas countdown (header + daily welcome animation, 1 Nov – 24 Dec), same as in the Home-organizer app; its texts are the `xmas_*` keys in `i18n.js`.
+  Other scripts that call `T()` must be listed in `JS_FILES` in `scripts/check-i18n.js`.
 
 ## Translations (SK, HU, EN) – mandatory
 - All user-visible text lives in `i18n.js` (`sk` is the reference) or, if it differs per village, in `obce/<id>.js` → `t`.

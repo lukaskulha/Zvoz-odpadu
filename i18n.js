@@ -174,7 +174,21 @@ var I18N = {
     foot_ver: "Verzia: {v}",
     ptr_pull: "Potiahnite pre obnovenie",
     ptr_release: "Pustite pre obnovenie",
-    ptr_loading: "Obnovujem…"
+    ptr_loading: "Obnovujem…",
+    xmas_unit: ["deň", "dni", "dní"],
+    xmas_to: "do Vianoc",
+    xmas_eve_1: "Štedrý",
+    xmas_eve_2: "deň!",
+    xmas_left_aria: "Do Vianoc zostáva {n} {u}.",
+    xmas_eve_aria: "Dnes je Štedrý deň.",
+    xmas_play: "Prehrať animáciu.",
+    xmas_continue: "Ťuknite pre pokračovanie.",
+    xmas_eve_big: "Štedrý deň!",
+    xmas_merry: "Veselé Vianoce",
+    xmas_sub: "{u} do Vianoc",
+    xmas_wish: "Pokojné sviatky celej rodine",
+    xmas_date: "Štedrý deň · {d}",
+    xmas_tap: "Ťuknite kamkoľvek"
   },
 
   hu: {
@@ -339,7 +353,21 @@ var I18N = {
     foot_ver: "Verzió: {v}",
     ptr_pull: "Húzza le a frissítéshez",
     ptr_release: "Engedje el a frissítéshez",
-    ptr_loading: "Frissítés…"
+    ptr_loading: "Frissítés…",
+    xmas_unit: ["nap", "nap", "nap"],
+    xmas_to: "karácsonyig",
+    xmas_eve_1: "Szenteste",
+    xmas_eve_2: "van!",
+    xmas_left_aria: "Karácsonyig még {n} {u} van.",
+    xmas_eve_aria: "Ma szenteste van.",
+    xmas_play: "Animáció lejátszása.",
+    xmas_continue: "Koppintson a folytatáshoz.",
+    xmas_eve_big: "Szenteste!",
+    xmas_merry: "Boldog karácsonyt",
+    xmas_sub: "{u} karácsonyig",
+    xmas_wish: "Békés ünnepeket az egész családnak",
+    xmas_date: "Szenteste · {d}",
+    xmas_tap: "Koppintson bárhová"
   },
 
   en: {
@@ -504,7 +532,21 @@ var I18N = {
     foot_ver: "Version: {v}",
     ptr_pull: "Pull to refresh",
     ptr_release: "Release to refresh",
-    ptr_loading: "Refreshing…"
+    ptr_loading: "Refreshing…",
+    xmas_unit: ["day", "days", "days"],
+    xmas_to: "to Christmas",
+    xmas_eve_1: "Christmas",
+    xmas_eve_2: "Eve!",
+    xmas_left_aria: "{n} {u} to Christmas.",
+    xmas_eve_aria: "Today is Christmas Eve.",
+    xmas_play: "Play the animation.",
+    xmas_continue: "Tap to continue.",
+    xmas_eve_big: "Christmas Eve!",
+    xmas_merry: "Merry Christmas",
+    xmas_sub: "{u} to Christmas",
+    xmas_wish: "Peaceful holidays to the whole family",
+    xmas_date: "Christmas Eve · {d}",
+    xmas_tap: "Tap anywhere"
   }
 };
 
