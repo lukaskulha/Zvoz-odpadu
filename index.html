@@ -220,7 +220,7 @@ footer{margin-top:22px;font-size:13px;color:var(--mut)}footer a{color:var(--btn)
 <script src="/obce/zdana.js"></script>
 <script src="/xmas.js"></script>
 <script>
-const APP_VERSION="v32";
+const APP_VERSION="v33";
 const BASE_URL="https://zvoz-odpadu.netlify.app/";
 /* ---- obec (village): data comes from obce/<id>.js; the address /<id>/ opens that village ---- */
 function obFromPath(){const s=location.pathname.replace(/^\/+|\/+$/g,"").split("/")[0];return OBCE[s]?s:null}
@@ -352,7 +352,9 @@ for(const k of TYPES){const d=dates(k).find(x=>x>=t0);if(!d)continue;if(!best||d
 if(!best)return {c:"",sym:"",t:T("pill_none")};const n=Math.round((best-t0)/864e5);
 const ty=ks.length>2?T("n_types",{n:ks.length}):ks.map(NS).join(" + ");
 const w=n==0?T("today_cap"):n==1?T("tomorrow_cap"):wk(best)==wk(t0)?cap(fmtDate(best,{weekday:"long"})):TP("in_days",n);
-return {c:ks.length==1?"k"+ks[0]:"",sym:n<=1?"r":wk(best)==wk(t0)?"y":"",t:w+" · "+ty}}
+/* today = red, tomorrow or later this week = yellow, otherwise the waste type colour */
+const sym=n==0?"r":n==1||wk(best)==wk(t0)?"y":"";
+return {c:sym||(ks.length==1?"k"+ks[0]:""),sym:sym,t:w+" · "+ty}}
 function drawZl(){const a=nextAny(),y=isYard();$("tzdi").innerHTML=y?HOUSE:TRUCK;$("tzdl").textContent=T(y?"tab_zd":"tab_io");$("pz").className="tp "+a.c;$("pz").innerHTML=(a.sym=="r"?ic(WARN,13):a.sym=="y"?ic('<circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>',13):"")+"<span>"+a.t+"</span>";
 if(!y){$("pd").className="tp";$("pd").textContent=T("io_badge");$("zlink").innerHTML=ic(TRUCK,20)+'<span><b>'+T("tab_io")+'</b> · '+T("io_link")+'</span>';return}
 const z=zStatus();$("pd").className="tp "+(z.s=="o"?"g":z.s=="w"?"y":"");$("pd").textContent=T(z.s=="o"?"zd_open":z.s=="w"?"zd_closing":"zd_closed");

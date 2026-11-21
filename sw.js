@@ -1,6 +1,6 @@
 /* Service worker: network first, cache as a fallback for offline use.
  * Bump C for every release. Files listed in PRE are cached on install (missing ones are skipped). */
-const C="zvoz-v32";
+const C="zvoz-v33";
 const PRE=["/","/index.html","/i18n.js","/xmas.js","/obce/zoznam.js","/obce/cana.js","/obce/geca.js","/obce/valaliky.js","/obce/zdana.js","/cana/","/geca/","/valaliky/","/zdana/","/icon-192.png"];
 self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(C).then(c=>Promise.all(PRE.map(u=>c.add(u).catch(()=>{})))))});
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!=C).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
